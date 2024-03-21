@@ -1,4 +1,4 @@
-import "../../App.css";
+import "./styles.css";
 import cartIcon from '../../assets/cart.svg';
 
 
