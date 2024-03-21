@@ -2,7 +2,7 @@ import "./styles.css";
 import cartIcon from '../../assets/cart.svg';
 
 
-export default function App() {
+export default function HeaderClient() {
   return (
     <>
        <header className="dsc-header-client">
