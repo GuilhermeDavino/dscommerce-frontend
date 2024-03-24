@@ -10,9 +10,10 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<App />} />
-        <Route path="Catalog" element={<Catalog />}/>
-        <Route path="ProductDetails" element={<ProductDetails />}/>
+        <Route path="/" element={<App />}>
+          <Route path="Catalog" element={<Catalog />} />
+          <Route path="ProductDetails" element={<ProductDetails />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   </React.StrictMode>
