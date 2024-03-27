@@ -20,3 +20,7 @@ export function get(): OrderDTO {
   console.log(cart);
   return cart;
 }
+
+export function clear() {
+    localStorage.setItem(CART_KEY, '{"items": []}');
+}
