@@ -6,28 +6,34 @@ import * as productService from "../../../services/product-service";
 import "./styles.css";
 import { useEffect, useState } from "react";
 import { ProductDTO } from "../../../models/Product";
-
+import * as cartService from '../../../services/cart-service'
 
 export default function ProductDetails() {
   const params = useParams();
   const [product, setProduct] = useState<ProductDTO>();
-  
+
   const navigate = useNavigate();
 
   useEffect(() => {
-    productService.findById(Number(params.productId))
-    .then(response => {
-      console.log(response.data);
-      setProduct(response.data);
-    }).catch(error => {
-      console.log(error.response.data);
-      navigate("/catalog")
-    });
-
-    
-    
-    
+    productService
+      .findById(Number(params.productId))
+      .then((response) => {
+        console.log(response.data);
+        setProduct(response.data);
+      })
+      .catch((error) => {
+        console.log(error.response.data);
+        navigate("/catalog");
+      });
   }, []);
+
+
+  function handleBuyClick() {
+    if(product) {
+      cartService.addProduct(product);
+      navigate("/cart");
+    }
+  }
   return (
     <>
       <main>
@@ -35,8 +41,10 @@ export default function ProductDetails() {
           {product && <ProductDetailsCard product={product} />}
 
           <div className="dsc-btn-page-container">
-            <ButtonPrimary text="Comprar" />
-            <Link to='/'>
+            <div onClick={handleBuyClick}>
+              <ButtonPrimary  text="Comprar" />
+            </div>
+            <Link to="/">
               <ButtonInverse text="Início" />
             </Link>
           </div>
