@@ -4,15 +4,18 @@ import ButtonPrimary from "../../../components/ButtonPrimary";
 import ProductDetailsCard from "../../../components/ProductDetailsCard";
 import * as productService from "../../../services/product-service";
 import "./styles.css";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { ProductDTO } from "../../../models/Product";
 import * as cartService from '../../../services/cart-service'
+import { ContextCartCount } from "../../../utils/context-cart";
 
 export default function ProductDetails() {
   const params = useParams();
   const [product, setProduct] = useState<ProductDTO>();
 
   const navigate = useNavigate();
+
+  const {setContextCartCount} = useContext(ContextCartCount);
 
   useEffect(() => {
     productService
@@ -31,6 +34,7 @@ export default function ProductDetails() {
   function handleBuyClick() {
     if(product) {
       cartService.addProduct(product);
+      setContextCartCount(cartService.getCart().items.length);
       navigate("/cart");
     }
   }

@@ -1,10 +1,11 @@
 import "./styles.css";
 import computerImg from "../../../assets/computador.png";
 import { isHtmlElement } from "react-router-dom/dist/dom";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import * as cartService from "../../../services/cart-service";
 import { OrderDTO, OrderItemDTO } from "../../../models/Order";
 import { Link } from "react-router-dom";
+import { ContextCartCount } from "../../../utils/context-cart";
 
 const cart = {
   items: [
@@ -30,19 +31,27 @@ const cart = {
 export default function Cart() {
   const [cart, setCart] = useState<OrderDTO>(cartService.getCart());
 
+  const { setContextCartCount } = useContext(ContextCartCount);
+
   function handClearClick() {
     cartService.clearCart();
-    setCart(cartService.getCart());
+    updateCart();
   }
 
-  function handIncreaseItem (productId: number) {
+  function handIncreaseItem(productId: number) {
     cartService.increaseItem(productId);
     setCart(cartService.getCart());
   }
 
-  function handDecreaseItem (productId: number) {
+  function handDecreaseItem(productId: number) {
     cartService.decreaseItem(productId);
-    setCart(cartService.getCart());
+    updateCart();
+  }
+
+  function updateCart() {
+    const newCart = cartService.getCart();
+    setCart(newCart);
+    setContextCartCount(newCart.items.length);
   }
 
   return (
@@ -64,9 +73,19 @@ export default function Cart() {
                   <div className="dsc-cart-item-description">
                     <h3>{item.name}</h3>
                     <div className="dsc-cart-item-quantity-container">
-                      <div onClick={() => handDecreaseItem(item.productId)} className="dsc-cart-item-quantity-btn">-</div>
+                      <div
+                        onClick={() => handDecreaseItem(item.productId)}
+                        className="dsc-cart-item-quantity-btn"
+                      >
+                        -
+                      </div>
                       <p>{item.quantity}</p>
-                      <div onClick={() => handIncreaseItem(item.productId)} className="dsc-cart-item-quantity-btn">+</div>
+                      <div
+                        onClick={() => handIncreaseItem(item.productId)}
+                        className="dsc-cart-item-quantity-btn"
+                      >
+                        +
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -86,7 +105,9 @@ export default function Cart() {
           <Link to="/">
             <div className="dsc-btn dsc-btn-white">Continuar comprando</div>
           </Link>
-          <div onClick={handClearClick} className="dsc-btn dsc-btn-white">Limpar carrinho</div>
+          <div onClick={handClearClick} className="dsc-btn dsc-btn-white">
+            Limpar carrinho
+          </div>
         </div>
       </section>
     </main>
