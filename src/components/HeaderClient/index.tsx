@@ -1,10 +1,13 @@
-import { useState } from "react";
 import CartIcon from "../CartIcon";
 import "./styles.css";
 import { Link } from "react-router-dom";
-
+import iconAdmin from "../../assets/admin.svg";
+import * as authService from "../../services/auth-service";
+import { useContext } from "react";
+import { ContextToken } from "../../utils/context-token";
 
 export default function HeaderClient() {
+  const { contextTokenPayload } = useContext(ContextToken);
 
   return (
     <>
@@ -16,6 +19,14 @@ export default function HeaderClient() {
 
           <div className="dsc-navbar-right">
             <div className="dsc-menu-items-container">
+              {contextTokenPayload &&
+                authService.hasAnyRoles(["ROLE_ADMIN"]) && (
+                  <Link to="/admin">
+                    <div className="dsc-menu-item">
+                      <img src={iconAdmin} alt="Admin" />
+                    </div>
+                  </Link>
+                )}
               <Link to="/cart">
                 <div className="dsc-menu-item">
                   <CartIcon />
