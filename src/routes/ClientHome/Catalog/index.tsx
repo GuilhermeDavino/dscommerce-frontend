@@ -24,7 +24,6 @@ export default function Catalog() {
   const [products, setProducts] = useState<ProductDTO[]>([]);
 
   useEffect(() => {
-    console.log("AUTENTICADO", isAuthenticated());
     productService
       .findPageRequest(queryParams.page, queryParams.name)
       .then((response) => {
