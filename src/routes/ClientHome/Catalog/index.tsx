@@ -11,17 +11,23 @@ import axios from "axios";
 
 export default function Catalog() {
   
+  const [productName, setProductName] = useState("");
+
   const [products, setProducts] = useState<ProductDTO[]>([]);
 
   useEffect(() => {
-    productService.findAll()
+    productService.findPageRequest(0, productName)
     .then(response => setProducts(response.data.content));
-  }, [])
+  }, [productName])
+
+  function handleSearch(searchText: string) {
+      setProductName(searchText);
+  }
 
   return (
     <main>
       <section id="catalog-section" className="dsc-container">
-        <SearchBar />
+        <SearchBar  onSearch={handleSearch}/>
         <div className="dsc-catalog-cards dsc-mb20 dsc-mt20">
           {products.map((product) => (
             <CatalogCard key={product.id} product={product} />
