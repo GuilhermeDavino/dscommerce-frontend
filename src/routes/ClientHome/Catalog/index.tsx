@@ -6,6 +6,7 @@ import * as productService from "../../../services/product-service";
 import "./styles.css";
 import { Outlet } from "react-router-dom";
 import { ProductDTO } from "../../../models/Product";
+import { isAuthenticated } from "../../../services/auth-service";
 
 type QueryParams = {
   page: number;
@@ -23,6 +24,7 @@ export default function Catalog() {
   const [products, setProducts] = useState<ProductDTO[]>([]);
 
   useEffect(() => {
+    console.log("AUTENTICADO", isAuthenticated());
     productService
       .findPageRequest(queryParams.page, queryParams.name)
       .then((response) => {
