@@ -3,8 +3,9 @@ import { CLIENT_ID, CLIENT_SECRET } from "../utils/system";
 import { AxiosRequestConfig } from "axios";
 import { requestBackend } from "../utils/requests";
 import * as accessTokenRepository from '../localstorage/access-token-repository';
+import { CredentialsDTO } from "../utils/auth";
 
-export function loginRequest(loginData: CredentialsContainer) {
+export function loginRequest(loginData: CredentialsDTO) {
 
     const headers = {
         "Content-Type": "application/x-www-form-urlencoded",
