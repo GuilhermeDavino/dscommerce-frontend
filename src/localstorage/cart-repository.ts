@@ -17,7 +17,6 @@ export function get(): OrderDTO {
       new OrderItemDTO(x.productId, x.quantity, x.name, x.price, x.imgUrl)
     );
   });
-  console.log(cart);
   return cart;
 }
 
