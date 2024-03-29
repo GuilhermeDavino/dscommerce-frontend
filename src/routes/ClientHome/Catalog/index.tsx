@@ -6,7 +6,7 @@ import * as productService from "../../../services/product-service";
 import "./styles.css";
 import { Outlet } from "react-router-dom";
 import { ProductDTO } from "../../../models/Product";
-import { hasAnyRoles, isAuthenticated } from "../../../services/auth-service";
+
 
 type QueryParams = {
   page: number;
