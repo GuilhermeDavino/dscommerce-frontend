@@ -1,16 +1,16 @@
-import { Link, useParams } from 'react-router-dom';
-import './styles.css'
-import { useEffect, useState } from 'react';
-import FormInput from '../../../components/FormInput';
-import * as forms from '../../../utils/forms';
-import * as productService from '../../../services/product-service';
+import { Link, useParams } from "react-router-dom";
+import "./styles.css";
+import { useEffect, useState } from "react";
+import FormInput from "../../../components/FormInput";
+import * as forms from "../../../utils/forms";
+import * as productService from "../../../services/product-service";
+import FormTextArea from "../../../components/FormTextArea";
 
 export default function ProductForm() {
-  
   const params = useParams();
 
-  const isEditing = params.productId !== 'create';
-  
+  const isEditing = params.productId !== "create";
+
   const [formData, setFormData] = useState<any>({
     name: {
       value: "",
@@ -18,10 +18,10 @@ export default function ProductForm() {
       name: "name",
       type: "text",
       placeholder: "Nome",
-      validation: function(value: string) {
-        return value.length >= 3 && value.length <= 80;
+      validation: function (value: string) {
+        return /^.{3,80}/.test(value);
       },
-      message: "Favor informar um nome de 3 a 80 caracteres"
+      message: "Favor informar um nome de 3 a 80 caracteres",
     },
     price: {
       value: "",
@@ -29,10 +29,10 @@ export default function ProductForm() {
       name: "price",
       type: "number",
       placeholder: "Preço",
-      validation: function(value: any) {
+      validation: function (value: any) {
         return Number(value) > 0;
       },
-      message: "Informe um número positivo"
+      message: "Informe um número positivo",
     },
     imgUrl: {
       value: "",
@@ -40,24 +40,36 @@ export default function ProductForm() {
       name: "imgUrl",
       type: "text",
       placeholder: "Imagem",
-    }
+    },
+    description: {
+      value: "",
+      id: "description",
+      name: "description",
+      type: "text",
+      placeholder: "Descrição",
+      validation: function (value: string) {
+        return /^.{10,}/.test(value);
+      },
+      message: "A descrição de pelo menos 10 caracteres",
+    },
   });
-  
+
   useEffect(() => {
-    if(isEditing) {
-      productService.findById(Number(params.productId))
-      .then(response => {
+    if (isEditing) {
+      productService.findById(Number(params.productId)).then((response) => {
         setFormData(forms.updateAll(formData, response.data));
       });
     }
   }, []);
-  
+
   function handleInputChange(event: any) {
-    setFormData(forms.updateAndValidate(formData, event.target.name,  event.target.value));
+    setFormData(
+      forms.updateAndValidate(formData, event.target.name, event.target.value)
+    );
   }
-  
+
   function handleTurnDirty(name: string) {
-      setFormData(forms.dirtyAndValidate(formData, name));
+    setFormData(forms.dirtyAndValidate(formData, name));
   }
 
   return (
@@ -69,40 +81,50 @@ export default function ProductForm() {
             <div className="dsc-form-controls-container">
               <div>
                 <FormInput
-                    {...formData.name}
-                    className="dsc-form-control"
-                    onTurnDirty={handleTurnDirty}
-                    onChange={handleInputChange}
-                  />
-                  <div className='dsc-form-error'>{formData.name.message}</div>
-                </div>
-              <div>
-                <FormInput
-                    {...formData.price}
-                    className="dsc-form-control"
-                    onTurnDirty={handleTurnDirty}
-                    onChange={handleInputChange}
-                  />
-                <div className='dsc-form-error'>{formData.price.message}</div>
+                  {...formData.name}
+                  className="dsc-form-control"
+                  onTurnDirty={handleTurnDirty}
+                  onChange={handleInputChange}
+                />
+                <div className="dsc-form-error">{formData.name.message}</div>
               </div>
               <div>
                 <FormInput
-                    {...formData.imgUrl}
-                    className="dsc-form-control"
-                    onTurnDirty={handleTurnDirty}
-                    onChange={handleInputChange}
-                  />
+                  {...formData.price}
+                  className="dsc-form-control"
+                  onTurnDirty={handleTurnDirty}
+                  onChange={handleInputChange}
+                />
+                <div className="dsc-form-error">{formData.price.message}</div>
+              </div>
+              <div>
+                <FormInput
+                  {...formData.imgUrl}
+                  className="dsc-form-control"
+                  onTurnDirty={handleTurnDirty}
+                  onChange={handleInputChange}
+                />
+              </div>
+              <div className="dsc-form-error">{formData.imgUrl.message}</div>
+              <div>
+                <FormTextArea
+                  {...formData.description}
+                  className="dsc-form-control dsc-textarea"
+                  onTurnDirty={handleTurnDirty}
+                  onChange={handleInputChange}
+                />
+                <div className="dsc-form-error">
+                  {formData.description.message}
                 </div>
-                <div className='dsc-form-error'>{formData.imgUrl.message}</div>
+              </div>
             </div>
-
             <div className="dsc-product-form-buttons">
               <Link to="/admin/products">
                 <button type="reset" className="dsc-btn dsc-btn-white">
                   Cancelar
                 </button>
               </Link>
-              
+
               <button type="submit" className="dsc-btn dsc-btn-blue">
                 Salvar
               </button>
