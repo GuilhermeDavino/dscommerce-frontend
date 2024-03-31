@@ -87,8 +87,6 @@ header {
   padding: 0 20px;
 }
 
-
-
 nav {
   display: flex;
   justify-content: space-between;
@@ -203,14 +201,8 @@ nav a {
   cursor: pointer;
 }
 
-
-
-
-
 /*-----------------------------------------------------------------*/
 /* search bar styles */
-
-
 
 /*-----------------------------------------------------------------*/
 /* form styles */
@@ -257,10 +249,10 @@ nav a {
 
 .dsc-form-control[data-invalid="true"][data-dirty="true"] {
   border: 1px solid var(--dsc-color-error);
-  }
+}
 
 .dsc-form-control[data-invalid="true"][data-dirty="true"] ~ div {
-    display: unset;
+  display: unset;
 }
 
 .dsc-form-error {
@@ -273,7 +265,6 @@ nav a {
 .dsc-form-select-container {
   padding: unset;
   height: unset;
-
 }
 
 .dsc-textarea {

@@ -9,7 +9,6 @@ export default function AdminHome() {
   useEffect(() => {
     userService.findMe().then((response) => {
       setUser(response.data);
-      console.log(response.data);
     });
   }, []);
 

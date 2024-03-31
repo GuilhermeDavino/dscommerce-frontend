@@ -71,6 +71,10 @@ export default function ProductListing() {
     setDialogConfirmationData({...dialogConfirmationData, id: productId, visible: true});
   }
 
+  function handleUpdateClick(productId: number) {
+      navigate(`/admin/products/${productId}`);
+  }
+
   function handleDialogConfirmationAnswer(answer: boolean, productId: number) {
     if(answer) {
         ProductService.deleteById(productId).then(() => {
@@ -126,6 +130,7 @@ export default function ProductListing() {
                 <td className="dsc-txt-left">{product.name}</td>
                 <td>
                   <img
+                    onClick={() => handleUpdateClick(product.id)}
                     className="dsc-product-listing-btn"
                     src={editIcon}
                     alt="Editar"
