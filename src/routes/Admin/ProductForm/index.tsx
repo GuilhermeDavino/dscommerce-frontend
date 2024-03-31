@@ -17,7 +17,11 @@ export default function ProductForm() {
       id: "name",
       name: "name",
       type: "text",
-      placeholder: "Nome"
+      placeholder: "Nome",
+      validation: function(value: string) {
+        return value.length >= 3 && value.length <= 80;
+      },
+      message: "Favor informar um nome de 3 a 80 caracteres"
     },
     price: {
       value: "",
@@ -70,8 +74,8 @@ export default function ProductForm() {
                     onTurnDirty={handleTurnDirty}
                     onChange={handleInputChange}
                   />
+                  <div className='dsc-form-error'>{formData.name.message}</div>
                 </div>
-                <div className='dsc-form-error'>{formData.name.message}</div>
               <div>
                 <FormInput
                     {...formData.price}
